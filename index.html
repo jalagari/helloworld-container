@@ -1,0 +1,104 @@
+<html>
+<head>
+    <meta name="description" content="A simple docker helloworld example.">
+    <meta name="author" content="Vijay Kumar Jalagari">
+
+<script type="text/javascript">
+function setCookie(name, value, expires, path, domain, secure) {
+  var thisCookie = name + "=" + escape(value) +
+      ((expires) ? "; expires=" + expires.toGMTString() : "") +
+      ((path) ? "; path=" + path : "") +
+      ((domain) ? "; domain=" + domain : "") +
+      ((secure) ? "; secure" : "");
+  document.cookie = thisCookie;
+}
+function GetCookie (name) {
+  var arg = name + "=";
+  var alen = arg.length;
+  var clen = document.cookie.length;
+  var i = 0;
+  while (i < clen) {
+    var j = i + alen;
+    if (document.cookie.substring(i, j) == arg)
+      return getCookieVal (j);
+    i = document.cookie.indexOf(" ", i) + 1;
+    if (i == 0) break; 
+  }
+  return null;
+}
+
+function VisitCounter(){
+
+	var element = document.getElementById("visits")
+  var visits = GetCookie("counter");
+
+  if (!visits) { visits = 1;
+
+  	element.innerHMTL = ("By the way, this is your first time here.");
+
+  }
+
+  else {
+    visits = parseInt(visits) + 1;
+    element.innerHMTL = ("I note, you have been here " + visits + " times.");
+  }
+}
+function getCookieVal (offset) {
+  var endstr = document.cookie.indexOf (";", offset);
+  if (endstr == -1)
+    endstr = document.cookie.length;
+  return unescape(document.cookie.substring(offset, endstr));
+}
+
+var visits = 0, expdate = new Date ();
+expdate.setTime (expdate.getTime() + (24 * 60 * 60 * 1000*365)); // 1 yr from now 
+setCookie("counter", visits, expdate);
+
+
+function updateClock ()
+{
+  var currentTime = new Date ( );
+
+  var currentHours = currentTime.getHours ( );
+  var currentMinutes = currentTime.getMinutes ( );
+  var currentSeconds = currentTime.getSeconds ( );
+
+  // Pad the minutes and seconds with leading zeros, if required
+  currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+  currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
+
+  // Choose either "AM" or "PM" as appropriate
+  var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
+
+  // Convert the hours component to 12-hour format if needed
+  currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
+
+  // Convert an hours component of "0" to "12"
+  currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+
+  // Compose the string for display
+  var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+
+  // Update the time display
+  document.getElementById("clock").firstChild.nodeValue = currentTimeString;
+}
+</script>
+</head>
+<body  onload="VisitCounter(); updateClock(); setInterval('updateClock()', 1000 )">
+   
+
+    <div class="container theme-showcase" role="main">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Hello</h1>
+        <p>Welcome to world of docker</p>
+      </div>
+      <hr/>
+      <div class="footer">
+        <p>2019 Vijay Kumar J,&nbsp;Visits:&nbsp;<span id="visits">&nbsp;</span>,&nbsp;&nbsp;<span id="clock">&nbsp;</span></p>
+      </div>
+    </div> <!-- /container -->
+	</div>
+</body>
+</html>
